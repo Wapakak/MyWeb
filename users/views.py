@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
+from .forms import (UserRegisterForm,
+                    UserUpdateForm,
+                    ProfileUpdateForm
+)
 from django.contrib.auth.decorators import login_required
 
 
@@ -31,7 +34,8 @@ def profile(request):
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+        p_form = ProfileUpdateForm() if request.user.profile.image == 'default.jpg' else ProfileUpdateForm(instance=request.user.profile)
 
     context = {
         'u_form' : u_form,
